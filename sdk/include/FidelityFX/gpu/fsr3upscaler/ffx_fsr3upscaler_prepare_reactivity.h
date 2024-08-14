@@ -86,7 +86,7 @@ FfxFloat32 ComputeMotionDivergence(FfxFloat32x2 fUv, FfxFloat32x2 fMotionVector,
     const FfxFloat32 fVelocityFactor = ffxSaturate(f4KVelocity / 10.0f);
     const FfxFloat32 fMotionVectorFieldConfidence = (1.0f - ffxSaturate(fReprojectedVelocity / f4KVelocity)) * fDistanceFactor * fVelocityFactor;
 
-    return fMotionVectorFieldConfidence;
+    return 0.f;
 }
 
 FfxFloat32 DilateReactiveMasks(FfxInt32x2 iPxPos, FfxFloat32x2 fUv)
@@ -237,9 +237,6 @@ void PrepareReactivity(FfxInt32x2 iPxPos)
 {
     const FfxFloat32x2 fUv = (iPxPos + 0.5f) / RenderSize();
     const FfxFloat32x2 fMotionVector = LoadDilatedMotionVector(iPxPos);
-
-    // Discard small mvs
-    const FfxFloat32 f4KVelocity = Get4KVelocity(fMotionVector);
 
     const FfxFloat32x2 fDilatedUv = fUv + fMotionVector;
     const FfxFloat32 fDilatedDepth = LoadDilatedDepth(iPxPos);

@@ -46,7 +46,7 @@ void RectifyHistory(
     FFX_PARAMETER_INOUT AccumulationPassData data
 )
 {
-    const FfxFloat32 fVecolityFactor = ffxSaturate(params.f4KVelocity / 20.0f);
+    const FfxFloat32 fVecolityFactor = 0.f;
     const FfxFloat32 fDistanceFactor        = ffxSaturate(0.75f - params.fFarthestDepthInMeters / 20.0f);
     const FfxFloat32 fAccumulationFactor    = 1.0f - params.fAccumulation;
     const FfxFloat32 fReactiveFactor        = ffxPow(params.fReactiveMask, 1.0f / 2.0f);
@@ -95,11 +95,7 @@ void UpdateLockStatus(AccumulationPassCommonParams params, FFX_PARAMETER_INOUT A
 
 void ComputeBaseAccumulationWeight(const AccumulationPassCommonParams params, FFX_PARAMETER_INOUT AccumulationPassData data)
 {
-    FfxFloat32 fBaseAccumulation = params.fAccumulation;
-
-    fBaseAccumulation = ffxMin(fBaseAccumulation, ffxLerp(fBaseAccumulation, 0.15f, ffxSaturate(ffxMax(0.0f, params.f4KVelocity / 0.5f))));
-
-    data.fHistoryWeight = fBaseAccumulation;
+    data.fHistoryWeight = params.fAccumulation;
 }
 
 void InitPassData(FfxInt32x2 iPxHrPos, FFX_PARAMETER_INOUT AccumulationPassCommonParams params, FFX_PARAMETER_INOUT AccumulationPassData data)
